@@ -1,6 +1,30 @@
-// template_5tk3w2r
-// service_y2cwuci
-// Rnl-swPHqBdMqDKT_
+let isModalOpen = false;
+let isDarkMode = false;
+const scaleFactor = 1 / 20;
+
+function toggleDarkMode() {
+  isDarkMode = !isDarkMode;
+  if (isDarkMode) {
+    document.body.classList += "dark-mode";
+  } else {
+    document.body.classList.remove("dark-mode");
+  }
+}
+
+function moveBackground(event) {
+  const shapes = document.querySelectorAll(".shape");
+  const x = event.clientX * scaleFactor;
+  const y = event.clientY * scaleFactor;
+
+  for (let i = 0; i < shapes.length; i++) {
+    if (i % 2 === 0) {
+      shapes[i].style.transform = `translate(-${x}px, -${y}px)`;
+    } else {
+      shapes[i].style.transform = `translate(${x}px, ${y}px)`;
+    }
+  }
+}
+
 function contact(event) {
   event.preventDefault();
 
@@ -29,7 +53,6 @@ function contact(event) {
   setTimeout(() => {}, 500);
 }
 
-let isModalOpen = false;
 function toggleModal() {
   if (isModalOpen) {
     isModalOpen = false;

@@ -2,14 +2,18 @@
 
 * {
   box-sizing: border-box;
-
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 section {
   background-color: rgb(245, 245, 245);
+  transition: all 300ms ease;
 }
 
 input,
@@ -122,6 +126,41 @@ button {
   background-color: white;
 }
 
+.dark-mode .title,
+.dark-mode .section__title,
+.dark-mode .scroll .dark-mode .section__subtitle,
+.dark-mode .fa-circle-half-stroke,
+.dark-mode .nav__link--anchor,
+.dark-mode .header__para {
+  color: rgb(245, 245, 245);
+}
+
+.dark-mode section {
+  background-color: #242424;
+}
+
+.dark-mode #personal-logo {
+  display: none;
+}
+
+.dark-mode #logo {
+  visibility: visible;
+}
+
+.dark-mode .scroll__icon:after,
+.dark-mode .link__hover-effect--black:after {
+  background-color: rgb(245, 245, 245);
+}
+
+.dark-mode .scroll__icon {
+  border-color: rgb(245, 245, 245);
+}
+
+.dark-mode .mail__btn {
+  background-color: rgb(245, 245, 245);
+  color: #242424;
+}
+
 .dark-mode__hover-effect {
   position: relative;
   transition: all 300ms ease;
@@ -140,6 +179,24 @@ button {
   100% {
     transform: rotate(360deg);
   }
+}
+
+nav,
+.scroll,
+.header,
+.mail__btn {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 600ms 400ms, visibility 600ms 400ms;
+}
+
+.modal__open nav,
+.modal__open .scroll,
+.modal__open .header,
+.modal__open .mail__btn {
+  opacity: 0;
+  visibility: hidden;
+  transition: all 400ms ease;
 }
 
 /* 
@@ -202,9 +259,11 @@ LANDING PAGE
   background-color: #242424;
   font-size: 32px;
   color: rgb(245, 245, 245);
-  position: absolute;
+  position: fixed;
   bottom: 32px;
   right: 32px;
+  z-index: 10;
+  border: solid 1px rgb(245, 245, 245);
 }
 
 .scroll {
@@ -212,6 +271,7 @@ LANDING PAGE
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
+  margin-bottom: 20px;
 }
 
 .scroll__icon {
@@ -259,10 +319,21 @@ nav {
   height: 100px;
   padding: 0 20px;
 }
+.nav__logo {
+  display: flex;
+  align-items: center;
+}
 
 #personal-logo {
   height: 60px;
   width: 60px;
+}
+
+#logo {
+  height: 60px;
+  width: 60px;
+  position: absolute;
+  visibility: hidden;
 }
 
 .nav__link--list {
@@ -289,6 +360,21 @@ MODAL
 
 */
 
+.modal__bg {
+  position: fixed; /* Fixes the overlay to the viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex; /* Centers the modal content */
+  justify-content: center;
+  align-items: center;
+  z-index: -2; /* Ensures it's on top of other content */
+  overflow: hidden;
+  visibility: hidden; /* Prevents scrolling of the overlay itself */
+}
+
 .modal {
   position: absolute;
   top: 50%;
@@ -296,17 +382,22 @@ MODAL
   transform: translate(-50%, -50%);
   width: 90%;
   max-width: 1000px;
-  height: 700px;
-  box-shadow: 0 20px 80px rgb(0, 0, 0, 0.6);
+  max-height: 100vh;
   border-radius: 20px;
-  overflow: hidden;
+  overflow-y: auto;
   display: flex;
-  visibility: hidden;
+  visibility: visible;
   z-index: -1;
-  transition: visibility 1s, z-index 1s, box-shadow .5s ease;
+  transition: visibility 1s, z-index 1s, box-shadow 0.5s ease;
 }
 
+body.modal__open {
+  overflow: hidden;
+}
+
+.modal__open .modal__bg,
 .modal__open .modal {
+  
   z-index: 5;
   visibility: visible;
   box-shadow: 0 20px 80px rgb(0, 0, 0, 0.6);
@@ -487,7 +578,11 @@ PROJECTS
 .section__title {
   text-align: center;
   font-size: 48px;
-  margin-bottom: 60px;
+  margin-bottom: 80px;
+}
+
+.project {
+  position: relative;
 }
 
 .project__img {
@@ -501,7 +596,7 @@ PROJECTS
   overflow: hidden;
   box-shadow: 0 20px 80px rgb(0, 0, 0, 0.5);
   transition: all 300ms ease;
-  margin: 120px 0;
+  margin-bottom: 100px;
 }
 
 .project__wrapper--bg {
@@ -513,6 +608,7 @@ PROJECTS
   background-color: #242424;
   opacity: 0;
   transition: all 300ms ease;
+  
 }
 
 .project__wrapper:hover .project__img {
@@ -538,6 +634,7 @@ PROJECTS
   opacity: 0;
   color: white;
   max-width: 550px;
+
 }
 
 .project__description--title {
@@ -567,6 +664,7 @@ FOOTER
 footer {
   background-color: #242424;
   padding: 6%, 0;
+  position: relative;
 }
 
 .footer__row {
@@ -579,10 +677,12 @@ footer {
   display: flex;
   justify-content: center;
 }
+
 .footer__logo--img {
   width: 80px;
   height: 80px;
 }
+
 .footer__social--list {
   display: flex;
   width: 100%;
@@ -603,4 +703,144 @@ footer {
   display: flex;
   justify-content: center;
   margin: 0 auto;
+}
+
+/* 
+
+SHAPES
+
+*/
+
+.shape {
+  width: 30px;
+  height: 30px;
+  position: fixed;
+}
+
+.shape--0 {
+  top: 15vh;
+  left: 10vw;
+}
+
+.shape--1 {
+  top: 15vh;
+  left: 50vw;
+}
+
+.shape--2 {
+  top: 15vh;
+  left: 85vw;
+}
+
+.shape--3 {
+  top: 50vh;
+  left: 10vw;
+}
+
+.shape--4 {
+  top: 50vh;
+  left: 50vw;
+}
+
+.shape--5 {
+  top: 50vh;
+  left: 85vw;
+}
+
+.shape--6 {
+  top: 80vh;
+  left: 10vw;
+}
+
+.shape--7 {
+  top: 80vh;
+  left: 50vw;
+}
+
+.shape--8 {
+  top: 80vh;
+  left: 85vw;
+}
+
+/* SMALL PHONES, TABLETS, SMARTPHONES */
+@media (max-width: 768px) {
+  .shape {
+    width: 20px;
+    height: 20px;
+  }
+  .title {
+    font-size: 80px;
+  }
+  .header__para {
+    font-size: 20px;
+  }
+
+  .modal {
+    top: 0;
+    left: 0;
+    transform: none;
+    width: 100%;
+    height: auto;
+    flex-direction: column-reverse;
+    border-radius: 0;
+  }
+
+  .modal__half {
+    width: 100%;
+  }
+
+  .project__description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    
+  }
+#projects .container {
+    padding: 0 20px;
+}
+.project__wrapper--bg {
+  display: flex;
+  justify-content: center;
+}
+  .project__description--para {
+    display: none;
+  }
+
+  .project__description--links {
+    padding-top: 12px;
+  }
+}
+
+/* SMALL PHONES */
+@media (max-width: 480px) {
+  .title {
+    font-size: 52px;
+  }
+
+  .header__para {
+    font-size: 18px;
+  }
+
+  .nav__link:first-child {
+    display: none;
+  }
+
+  .modal__half {
+    padding: 40px
+  }
+
+  .footer__social--list {
+    flex-direction: column;
+  }
+  
+  .footer__social--link {
+    margin: 12px 0;
+  }
+
+  .footer__copyright {
+    font-size: 14px;
+    text-align: center;
+  }
 }
