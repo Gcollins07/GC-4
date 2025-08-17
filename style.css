@@ -217,6 +217,7 @@ LANDING PAGE
   width: 100%;
   max-width: 1000px;
   padding: 0 30px;
+  z-index: 3;
 }
 
 .title {
